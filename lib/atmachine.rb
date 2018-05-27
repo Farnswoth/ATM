@@ -7,8 +7,15 @@ class ATMachine
   end
 
   def login
-    core = ATMCore.new(UI.account_number, UI.password)
-    UI.say_hello(core.account['name'])
+    core = sing_in
+
+    if core.account
+      UI.say_hello(core.account['name'])
+      core
+    else
+      UI.error_number_pass_dont_match
+      core = login
+    end
     core
   end
 
@@ -38,6 +45,10 @@ class ATMachine
   end
 
   private
+
+  def sing_in
+    ATMCore.new(UI.account_number, UI.password)
+  end
 
   def enough_money?(money_to_withdraw)
     money_to_withdraw < @core.balance

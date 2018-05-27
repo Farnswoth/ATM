@@ -8,8 +8,7 @@ class ATMCore
   attr_reader :account
 
   def initialize(account, password)
-    #@account = log_in(account, password)
-    @account = log_in('3321', 'mypass')
+    @account = log_in(account, password)
     @banknotes = config['banknotes'].delete_value(0)
     @bnkts_finder = BanknotesFinder.new(@banknotes)
     @balances = {}
@@ -60,7 +59,7 @@ class ATMCore
 
   def find_account(id)
     account = config['accounts'][id.to_i]
-    account.empty? ? nil : account.merge({id: id})
+    account.nil? ? nil : account.merge({id: id})
   end
 
   def enough_money?(amount)
